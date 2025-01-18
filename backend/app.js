@@ -2,7 +2,8 @@ const config = require('./utils/config')
 const logger = require('./utils/logger')
 const express = require('express')
 const connectDB = require('./db')
-const Post = require('./models/post')
+
+const usersRouter = require('./controllers/users')
 
 const app = express()
 
@@ -17,13 +18,7 @@ const errorHandler = (error, request, response, next) => {
   next(error)
 }
 
-app.get('/', (request, response) => {
-  response.send('<h1>Hello World!</h1>')
-})
-
-app.get('/api/posts', (request, response) => {
-  
-})
+app.use('/api/users', usersRouter)
 
 app.use(errorHandler)
 
