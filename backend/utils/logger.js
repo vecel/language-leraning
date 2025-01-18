@@ -1,15 +1,19 @@
 const logger = {
     info: (...params) => {
-        console.log(...params);
+        if (process.env.NODE_ENV !== 'test')
+            console.log(...params)
     },
     debug: (...params) => {
-        console.debug(...params);
+        if (process.env.NODE_ENV !== 'test')
+            console.debug(...params)
     },
     warn: (...params) => {
-        console.warn(...params);
+        if (process.env.NODE_ENV !== 'test')
+            console.warn(...params)
     },
     error: (...params) => {
-        console.error(...params);
+        if (process.env.NODE_ENV !== 'test')
+            console.error(...params)
     }
 };
 
