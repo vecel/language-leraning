@@ -76,6 +76,19 @@ test('Cannot add user with non-unique username', async () => {
         .expect(400)
 })
 
+test('Cannot add user with non-unique email', async () => {
+    const newUser = {
+        username: 'Andrzej',
+        email: 'mateusz@gmail.com',
+        password: 'strong_password'
+    }
+
+    await api
+        .post('/api/users')
+        .send(newUser)
+        .expect(400)
+})
+
 after(async () => {
     await mongoose.connection.close()
 })
