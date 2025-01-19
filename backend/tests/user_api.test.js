@@ -55,7 +55,7 @@ describe('There are some users saved in database initially', () => {
             const newUser = {
                 username: 'Andrzej',
                 email: 'andrzej@gmail.com',
-                password: 'strong_password'
+                password: 'V3rySt0ngPa##word'
             }
             
             await api
@@ -71,7 +71,7 @@ describe('There are some users saved in database initially', () => {
             const newUser = {
                 username: 'Mateusz',
                 email: 'mail@gmail.com',
-                password: 'strong_password'
+                password: 'V3rySt0ngPa##word'
             }
         
             await api
@@ -84,6 +84,45 @@ describe('There are some users saved in database initially', () => {
             const newUser = {
                 username: 'Andrzej',
                 email: 'mateusz@gmail.com',
+                password: 'V3rySt0ngPa##word'
+            }
+        
+            await api
+                .post('/api/users')
+                .send(newUser)
+                .expect(400)
+        })
+
+        test('Fails with status 400, when email is invalid', async () => {
+            const newUser = {
+                username: 'Andrzej',
+                email: 'mateusz@gma$#il.com',
+                password: 'V3rySt0ngPa##word'
+            }
+        
+            await api
+                .post('/api/users')
+                .send(newUser)
+                .expect(400)
+        })
+
+        test('Fails with status 400, when username is too short', async () => {
+            const newUser = {
+                username: 'x',
+                email: 'newuser@email.pl',
+                password: 'V3rySt0ngPa##word'
+            }
+        
+            await api
+                .post('/api/users')
+                .send(newUser)
+                .expect(400)
+        })
+
+        test('Fails with status 400, when password is too weak', async () => {
+            const newUser = {
+                username: 'New user',
+                email: 'newuser@email.pl',
                 password: 'strong_password'
             }
         
@@ -92,9 +131,51 @@ describe('There are some users saved in database initially', () => {
                 .send(newUser)
                 .expect(400)
         })
+
+        test('Response contain usernameError, when username is invalid', async () => {
+            const newUser = {
+                username: 'x',
+                email: 'new-user@email.pl',
+                password: 'V3rySt0ngPa##word'
+            }
         
-        after(async () => {
-            await mongoose.connection.close()
+            const response = await api
+                                .post('/api/users')
+                                .send(newUser)
+
+            assert.strictEqual(response.body['usernameError'], 'Username should be at least 4 characters long')
         })
+
+        test('Response contain emailError, when email is invalid', async () => {
+            const newUser = {
+                username: 'New user',
+                email: 'new-user@email@pl',
+                password: 'V3rySt0ngPa##word'
+            }
+        
+            const response = await api
+                                .post('/api/users')
+                                .send(newUser)
+
+            assert.strictEqual(response.body['emailError'], 'Invalid email address')
+        })
+        
+        test('Response contain passwordError, when password is invalid', async () => {
+            const newUser = {
+                username: 'New user',
+                email: 'new-user@email.pl',
+                password: 'qwerty@A'
+            }
+        
+            const response = await api
+                                .post('/api/users')
+                                .send(newUser)
+
+            assert.strictEqual(response.body['passwordError'], 'Password should contain a digit')
+        })
+    })
+
+    after(async () => {
+        await mongoose.connection.close()
     })
 })

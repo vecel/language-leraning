@@ -15,7 +15,7 @@ usersRouter.post('/', async (request, response) => {
     const passwordHash = await bcrypt.hash(password, saltRounds)
 
     const errors = validate(username, email, password)
-    if (errors.length !== 0)
+    if (Object.keys(errors).length !== 0)
         return response.status(400).json(errors)
 
     const user = new User({
