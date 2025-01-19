@@ -21,7 +21,7 @@ loginRouter.post('/', async (request, response) => {
     logger.debug(authorized)
 
     if (!authorized) {
-        response.status(401).json({ error: 'Invalid username or password' })
+        return response.status(401).json({ error: 'Invalid username or password' })
     }
 
     const tokenUser = {
