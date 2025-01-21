@@ -6,4 +6,10 @@ class UserCreationError extends Error {
     }
 }
 
-module.exports = UserCreationError
+class AuthorizationError extends Error {
+    constructor (message) {
+        super(message)
+    }
+}
+
+module.exports = { UserCreationError, AuthorizationError }

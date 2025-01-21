@@ -6,9 +6,9 @@ mongoose.set('strictQuery', false)
 
 const connectDB = () => {
     logger.info('Connecting to ', config.MONGODB_URI)
-    
+
     mongoose.connect(config.MONGODB_URI)
-        .then(result => {
+        .then(_ => {
             logger.info('Connected to MongoDB')
         })
         .catch(error => {

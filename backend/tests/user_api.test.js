@@ -25,30 +25,30 @@ describe('There are some users saved in database initially', () => {
 
     beforeEach(async () => {
         await User.deleteMany({})
-        for (user of mockUsers) {
+        for (let user of mockUsers) {
             const userObject = new User(user)
             await userObject.save()
         }
     })
-    
+
     test('Users are returned as json', async () => {
         await api
             .get('/api/users')
             .expect(200)
             .expect('Content-Type', /application\/json/)
     })
-    
+
     test('There are exactly two users', async () => {
         const response = await api.get('/api/users')
         assert.strictEqual(response.body.length, 2)
     })
-    
+
     test('User has username and email', async () => {
         const response = await api.get('/api/users')
         const user = response.body[0]
         assert(Object.hasOwn(user, 'username') && Object.hasOwn(user, 'email'))
     })
-    
+
     describe('Adding new user', () => {
 
         test('Succeeds with valid data', async () => {
@@ -57,36 +57,36 @@ describe('There are some users saved in database initially', () => {
                 email: 'andrzej@gmail.com',
                 password: 'V3rySt0ngPa##word'
             }
-            
+
             await api
                 .post('/api/users')
                 .send(newUser)
                 .expect(201)
-        
+
             const response = await api.get('/api/users')
             assert.strictEqual(response.body.length, mockUsers.length + 1)
         })
-        
+
         test('Fails with status 400, when username is not unique', async () => {
             const newUser = {
                 username: 'Mateusz',
                 email: 'mail@gmail.com',
                 password: 'V3rySt0ngPa##word'
             }
-        
+
             await api
                 .post('/api/users')
                 .send(newUser)
                 .expect(400)
         })
-        
+
         test('Fails with status 400, when email is not unique', async () => {
             const newUser = {
                 username: 'Andrzej',
                 email: 'mateusz@gmail.com',
                 password: 'V3rySt0ngPa##word'
             }
-        
+
             await api
                 .post('/api/users')
                 .send(newUser)
@@ -99,7 +99,7 @@ describe('There are some users saved in database initially', () => {
                 email: 'mateusz@gma$#il.com',
                 password: 'V3rySt0ngPa##word'
             }
-        
+
             await api
                 .post('/api/users')
                 .send(newUser)
@@ -112,7 +112,7 @@ describe('There are some users saved in database initially', () => {
                 email: 'newuser@email.pl',
                 password: 'V3rySt0ngPa##word'
             }
-        
+
             await api
                 .post('/api/users')
                 .send(newUser)
@@ -125,7 +125,7 @@ describe('There are some users saved in database initially', () => {
                 email: 'newuser@email.pl',
                 password: 'strong_password'
             }
-        
+
             await api
                 .post('/api/users')
                 .send(newUser)
@@ -138,10 +138,10 @@ describe('There are some users saved in database initially', () => {
                 email: 'new-user@email.pl',
                 password: 'V3rySt0ngPa##word'
             }
-        
+
             const response = await api
-                                .post('/api/users')
-                                .send(newUser)
+                .post('/api/users')
+                .send(newUser)
 
             assert.strictEqual(response.body['usernameError'], 'Username should be at least 4 characters long')
         })
@@ -152,24 +152,24 @@ describe('There are some users saved in database initially', () => {
                 email: 'new-user@email@pl',
                 password: 'V3rySt0ngPa##word'
             }
-        
+
             const response = await api
-                                .post('/api/users')
-                                .send(newUser)
+                .post('/api/users')
+                .send(newUser)
 
             assert.strictEqual(response.body['emailError'], 'Invalid email address')
         })
-        
+
         test('Response contain passwordError, when password is invalid', async () => {
             const newUser = {
                 username: 'New user',
                 email: 'new-user@email.pl',
                 password: 'qwerty@A'
             }
-        
+
             const response = await api
-                                .post('/api/users')
-                                .send(newUser)
+                .post('/api/users')
+                .send(newUser)
 
             assert.strictEqual(response.body['passwordError'], 'Password should contain a digit')
         })

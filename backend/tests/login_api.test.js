@@ -37,7 +37,7 @@ describe('Logging', () => {
             username: 'Tomasz',
             password: 'StrongEnough1#'
         }
-        const response = 
+        const response =
             await api
                 .post('/api/login')
                 .send(credentials)

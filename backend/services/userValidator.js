@@ -1,4 +1,4 @@
-const ValidationError = require('./userError')
+const { UserCreationError } = require('../utils/errors')
 
 const emailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
 const passwordRegexes = [
@@ -25,7 +25,7 @@ const validateEmail = (email) => {
 const validateUsername = (username) => {
     if (typeof username !== 'string')
         return 'Username should be a string'
-    return username.length >= 4 
+    return username.length >= 4
         ? ''
         : 'Username should be at least 4 characters long'
 }
@@ -33,7 +33,7 @@ const validateUsername = (username) => {
 const validatePassword = (password) => {
     if (typeof password !== 'string')
         return 'Password should be a string'
-    
+
     for (const [idx, regex] of passwordRegexes.entries()) {
         if (!regex.test(password))
             return passwordErrors[idx]
@@ -47,14 +47,14 @@ const validate = (username, email, password) => {
     const emailError = validateEmail(email)
     const passwordError = validatePassword(password)
     if (usernameError)
-        errors = {...errors, usernameError}
+        errors = { ...errors, usernameError }
     if (emailError)
-        errors = {...errors, emailError}
+        errors = { ...errors, emailError }
     if (passwordError)
-        errors = {...errors, passwordError}
-    
+        errors = { ...errors, passwordError }
+
     if (Object.keys(errors).length > 0)
-        throw new ValidationError(errors)
+        throw new UserCreationError(errors)
 }
 
 module.exports = validate

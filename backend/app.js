@@ -1,9 +1,8 @@
 require('express-async-errors')
 
-const config = require('./utils/config')
-const logger = require('./utils/logger')
 const express = require('express')
 const connectDB = require('./db')
+const { UserCreationError, AuthorizationError } = require('./utils/errors')
 
 const usersRouter = require('./controllers/users')
 const loginRouter = require('./controllers/login')
@@ -13,13 +12,17 @@ const app = express()
 connectDB()
 
 const errorHandler = (error, request, response, next) => {
-  if (error.name === 'CastError')
-    response.status(400).send({ error: 'Malformatted id' })
-  if (error.name === 'ValidationError')
-    response.status(400).send({ error: error.message })
-  if (error.name === 'MongoServerError' && error.message.includes('E11000 duplicate key error collection'))
-    response.status(400).send({ error: 'Expected `username` to be unique' })
-  next(error)
+    if (error.name === 'CastError')
+        response.status(400).send({ error: 'Malformatted id' })
+    if (error.name === 'ValidationError')
+        response.status(400).send({ error: error.message })
+    if (error.name === 'MongoServerError' && error.message.includes('E11000 duplicate key error collection'))
+        response.status(400).send({ error: 'Expected `username` to be unique' })
+    if (error instanceof AuthorizationError)
+        response.status(401).json({ error: error.message })
+    if (error instanceof UserCreationError)
+        response.status(400).json(error.errors)
+    next(error)
 }
 
 app.use(express.json())

@@ -15,6 +15,6 @@ const logger = {
         if (process.env.NODE_ENV !== 'test')
             console.error(...params)
     }
-};
+}
 
-module.exports = logger;
+module.exports = logger
