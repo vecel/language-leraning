@@ -8,40 +8,46 @@ const User = require('../models/user')
 
 const api = supertest(app)
 
-const mockUser = {
-    username: 'Tomasz',
-    email: 'tomasz@gmail.com',
-    password: 'StrongEnough1#'
+const helper = {
+    mockUser: {
+        username: 'Tomasz',
+        email: 'tomasz@gmail.com',
+        password: 'StrongEnough1#'
+    },
+    credentials: {
+        username: 'Tomasz',
+        password: 'StrongEnough1#'
+    },
+    wrongPasswordCredentials: {
+        username: 'Tomasz',
+        password: 'Wrong'
+    },
+    wrongUsernameCredentials: {
+        username: 'Wrong',
+        password: 'StrongEnough1#'
+    }
 }
 
 
 beforeEach(async () => {
     await User.deleteMany({})
-    await api.post('/api/users').send(mockUser)
+    await api.post('/api/users').send(helper.mockUser)
 })
 
 describe('Logging', () => {
 
     test('Succeeds with valid data', async () => {
-        const credentials = {
-            username: 'Tomasz',
-            password: 'StrongEnough1#'
-        }
         await api
             .post('/api/login')
-            .send(credentials)
+            .send(helper.credentials)
             .expect(200)
     })
 
     test('Returns token on success', async () => {
-        const credentials = {
-            username: 'Tomasz',
-            password: 'StrongEnough1#'
-        }
         const response =
             await api
                 .post('/api/login')
-                .send(credentials)
+                .send(helper.credentials)
 
         const body = response.body
 
@@ -50,16 +56,17 @@ describe('Logging', () => {
     })
 
     test('Login fails with status 401, when password is incorrect', async () => {
-        const credentials = {
-            username: 'Tomasz',
-            password: 'WrongPassword'
-        }
-
         await api
             .post('/api/login')
-            .send(credentials)
+            .send(helper.wrongPasswordCredentials)
             .expect(401)
+    })
 
+    test('Login fails with status 401, when username is incorrect', async () => {
+        await api
+            .post('/api/login')
+            .send(helper.wrongUsernameCredentials)
+            .expect(401)
     })
 })
  
