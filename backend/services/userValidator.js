@@ -1,3 +1,5 @@
+const ValidationError = require('./userError')
+
 const emailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
 const passwordRegexes = [
     /[a-z]/,
@@ -50,7 +52,9 @@ const validate = (username, email, password) => {
         errors = {...errors, emailError}
     if (passwordError)
         errors = {...errors, passwordError}
-    return errors
+    
+    if (Object.keys(errors).length > 0)
+        throw new ValidationError(errors)
 }
 
 module.exports = validate
