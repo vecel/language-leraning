@@ -6,6 +6,7 @@ const { UserCreationError, AuthorizationError } = require('./utils/errors')
 
 const usersRouter = require('./controllers/users')
 const loginRouter = require('./controllers/login')
+const signupRouter = require('./controllers/signup')
 
 const app = express()
 
@@ -29,6 +30,7 @@ app.use(express.json())
 
 app.use('/api/users', usersRouter)
 app.use('/api/login', loginRouter)
+app.use('/api/signup', signupRouter)
 
 app.use(errorHandler)
 

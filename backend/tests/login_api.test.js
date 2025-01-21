@@ -14,12 +14,13 @@ const mockUser = {
     password: 'StrongEnough1#'
 }
 
-describe('Logging', () => {
 
-    beforeEach(async () => {
-        await User.deleteMany({})
-        await api.post('/api/users').send(mockUser)
-    })
+beforeEach(async () => {
+    await User.deleteMany({})
+    await api.post('/api/users').send(mockUser)
+})
+
+describe('Logging', () => {
 
     test('Succeeds with valid data', async () => {
         const credentials = {
@@ -60,9 +61,15 @@ describe('Logging', () => {
             .expect(401)
 
     })
+})
+ 
+describe('Signing up', () => {
 
-    after(async () => {
-        await mongoose.connection.close()
+    test('Succeeds with valid data', { todo: true }, () => {
+
     })
+})
 
+after(async () => {
+    await mongoose.connection.close()
 })
