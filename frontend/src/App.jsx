@@ -10,7 +10,7 @@ export default function App() {
     <>
       {
         user === null
-          ? <AuthForm login={setUser} />
+          ? <AuthForm setUser={setUser} />
           : 'Hello ' + user.username
       }
     </>

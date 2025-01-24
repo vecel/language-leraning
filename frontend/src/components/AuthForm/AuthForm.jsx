@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Fragment } from "react";
-import axios from "axios";
 
-export default function AuthForm({ login }) {
+import authService from '../../services/auth'
+
+export default function AuthForm({ setUser }) {
 
     const initialFormData = { 
         username: '',
@@ -10,24 +10,25 @@ export default function AuthForm({ login }) {
         password: ''
     }
 
-    const url = 'http://localhost:8000/api'
-
     const [isLogin, setIsLogin] = useState(true)
     const [formData, setFormData] = useState(initialFormData)
     const [errors, setErrors] = useState({})
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault()
         setErrors({})
-        const endpoint = url + (isLogin ? '/login' : '/signup')
-        const postData = isLogin
-            ? { username: formData.username, password: formData.password }
-            : { ...formData }
-
-        axios
-            .post(endpoint, postData)
-            .then(response => login(response.data))
-            .catch(error => setErrors(error.response.data))
+        try {
+            console.log('here')
+            const user = isLogin
+                ? await authService.login({ username: formData.username, password: formData.password})
+                : await authService.signup({...formData})
+            setUser(user)
+        } catch (exception) {
+            console.log(exception)
+            // status code 500 -> exception.response is undefined (should change in the backend)
+            // status 401 -> exception.response.data is an object with errors
+            setErrors(exception.response.data)
+        }
     }
 
     const handleChange = (event) => {
@@ -56,6 +57,10 @@ export default function AuthForm({ login }) {
                 </span>
             </>
         )
+    }
+
+    const auth = () => {
+            
     }
 
     return (
