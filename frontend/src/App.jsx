@@ -10,7 +10,7 @@ export default function App() {
     <>
       {
         user === null
-          ? <AuthForm fields={['username', 'email', 'password']} endpoint='http://localhost:8000/api/signup' login={setUser} />
+          ? <AuthForm login={setUser} />
           : 'Hello ' + user.username
       }
     </>
