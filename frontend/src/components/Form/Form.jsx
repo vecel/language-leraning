@@ -9,10 +9,14 @@ export default function Form() {
     const handleSubmit = (event) => {
         event.preventDefault()
         console.log(username, password)
+        const credentials = {username, password}
         axios
-            .post('http://localhost:8000/api/login')
+            .post('http://localhost:8000/api/login', credentials)
             .then(response => {
-                console.log(response)
+                console.log(response.data)
+            })
+            .catch(error => {
+                console.log(error.response.data)
             })
     }
 
