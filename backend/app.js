@@ -3,7 +3,7 @@ require('express-async-errors')
 const express = require('express')
 const cors = require('cors')
 
-const connectDB = require('./db')
+const db = require('./db')
 const { UserCreationError, AuthorizationError } = require('./utils/errors')
 
 const usersRouter = require('./controllers/users')
@@ -12,7 +12,7 @@ const signupRouter = require('./controllers/signup')
 
 const app = express()
 
-connectDB()
+db.connect()
 
 const errorHandler = (error, request, response, next) => {
     if (error.name === 'CastError')
@@ -29,6 +29,12 @@ const errorHandler = (error, request, response, next) => {
         response.status(401).json({ error: error.message })
     if (error instanceof UserCreationError)
         response.status(400).json(error.errors)
+    if (error.name === 'MongooseError' && error.message.includes('buffering timed out'))
+        if (!db.connected())
+            response.status(500).json({ error: 'Connection to database lost '})
+        response.status(500).send({ error: error.message }) // when connection to db was never established
+    if (error.name === 'MongoServerSelectionError')
+        response.status(500).json({ error: 'Connection to database lost' })
     next(error)
 }
 
