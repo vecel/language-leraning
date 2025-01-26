@@ -19,8 +19,12 @@ const errorHandler = (error, request, response, next) => {
         response.status(400).send({ error: 'Malformatted id' })
     if (error.name === 'ValidationError')
         response.status(400).send({ error: error.message })
-    if (error.name === 'MongoServerError' && error.message.includes('E11000 duplicate key error collection'))
-        response.status(400).send({ error: 'Expected `username` to be unique' })
+    if (error.name === 'MongoServerError' && error.message.includes('E11000 duplicate key error collection')) {
+        if (error.message.includes('username_1 dup key'))
+            response.status(400).send({ error: 'There already exists user with given username' })
+        if (error.message.includes('email_1 dup key'))
+            response.status(400).send({ error: 'There already exists user with given email' })
+    }
     if (error instanceof AuthorizationError)
         response.status(401).json({ error: error.message })
     if (error instanceof UserCreationError)
@@ -31,7 +35,7 @@ const errorHandler = (error, request, response, next) => {
 app.use(cors())
 app.use(express.json())
 
-app.use('/api/users', usersRouter)
+app.use('/api/users', usersRouter) // I won't call post method here, todo: remove tests
 app.use('/api/login', loginRouter)
 app.use('/api/signup', signupRouter)
 
