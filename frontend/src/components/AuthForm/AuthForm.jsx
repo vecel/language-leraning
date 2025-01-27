@@ -1,8 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import authService from '../../services/auth'
 
-export default function AuthForm({ setUser }) {
+export default function AuthForm({ handleLogin }) {
+
+    const navigate = useNavigate()
 
     const initialFormData = { 
         username: '',
@@ -22,7 +25,8 @@ export default function AuthForm({ setUser }) {
             const user = isLogin
                 ? await authService.login({ username: formData.username, password: formData.password})
                 : await authService.signup({...formData})
-            setUser(user)
+            handleLogin(user)
+            navigate('/')
         } catch (exception) {
             console.log(exception)
             // status code 500 -> exception.response is undefined (should change in the backend)
@@ -57,10 +61,6 @@ export default function AuthForm({ setUser }) {
                 </span>
             </>
         )
-    }
-
-    const auth = () => {
-            
     }
 
     return (

@@ -32,7 +32,7 @@ const errorHandler = (error, request, response, next) => {
     if (error.name === 'MongooseError' && error.message.includes('buffering timed out'))
         if (!db.connected())
             response.status(500).json({ error: 'Connection to database lost '})
-        response.status(500).send({ error: error.message }) // when connection to db was never established
+        response.status(500).send({ error: error.message })
     if (error.name === 'MongoServerSelectionError')
         response.status(500).json({ error: 'Connection to database lost' })
     next(error)
