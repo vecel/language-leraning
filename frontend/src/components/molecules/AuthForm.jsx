@@ -1,7 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 
-import authService from '../../services/auth'
+import FormInput from "../atoms/FormInput";
+import ErrorMessage from "../atoms/ErrorMessage";
+import authService from '../../services/auth';
+
+const Form = styled.form`
+    display: flex;
+    flex-direction: column;
+`
 
 export default function AuthForm({ handleLogin }) {
 
@@ -49,33 +57,23 @@ export default function AuthForm({ handleLogin }) {
     const field = (name, type) => {
         return (
             <>
-                <input 
-                    name={name}
-                    type={type}
-                    placeholder={name}
-                    onChange={handleChange}
-                    required
-                />
-                <span>
-                    {errors[name + 'Error'] || ''}
-                </span>
+                <FormInput name={name} type={type} onChange={handleChange} />
+                <ErrorMessage message={errors[name + 'Error'] || ''} />
             </>
         )
     }
 
     return (
-        <form key={isLogin} onSubmit={handleSubmit}>
+        <Form key={isLogin} onSubmit={handleSubmit}>
             { field('username', 'text') }
             { !isLogin && field('email', 'email') }
             { field('password', 'password') }
-            <span>
-                {errors['error'] || ''}
-            </span>
             <button type='submit'>Submit</button>
+            <ErrorMessage message={errors['error'] || ''} />
             { isLogin 
                 ? <span>Don't have an account? Let's <span onClick={toggleLogin}>sign up</span></span>
                 : <span>Already have an account? Let's <span onClick={toggleLogin}>log in</span></span>
             }
-        </form>
+        </Form>
     )
 }

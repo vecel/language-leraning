@@ -1,4 +1,4 @@
-import AuthForm from "../components/AuthForm/AuthForm";
+import AuthForm from "../components/molecules/AuthForm";
 
 export default function Authorization({ handleLogin }) {
     return (
