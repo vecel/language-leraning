@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 import Input from "../atoms/Input";
 import ErrorMessage from "../atoms/ErrorMessage";
+import Button from "../atoms/Button";
 import authService from '../../services/auth';
 
 import { TailSpin } from "react-loader-spinner"
@@ -91,7 +92,7 @@ export default function AuthForm({ handleLogin }) {
             { field('username', 'text') }
             { !isLogin && field('email', 'email') }
             { field('password', 'password') }
-            <button type='submit'>Submit</button>
+            <Button type='submit'>Submit</Button>
             <ErrorMessage message={errors['error'] || ''} />
             { isLogin 
                 ? <span>Don't have an account? Let's <Span $action={true} onClick={toggleLogin}>sign up</Span></span>
