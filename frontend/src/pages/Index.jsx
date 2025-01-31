@@ -1,10 +1,12 @@
-import { Link } from "react-router-dom";
+import IndexTemplate from "../components/templates/IndexTemplate";
+import Nav from "../components/organisms/Nav";
+import IndexMain from "../components/organisms/IndexMain";
 
 export default function Index() {
     return (
-        <>
-            <p>Hello Index</p>
-            <Link to='/authorization'>Authorization</Link>
-        </>
+        <IndexTemplate>
+            <Nav />
+            <IndexMain />
+        </IndexTemplate>
     )
 }

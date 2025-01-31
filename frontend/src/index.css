@@ -13,11 +13,13 @@
   -moz-osx-font-smoothing: grayscale;
 
   --light-blue: #646cff;
+
+  --dashed-line: 0.2px dashed #fff5;
 }
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: #fff;
   text-decoration: inherit;
 }
 a:hover {
