@@ -18,7 +18,7 @@ const StyledInput = styled.input`
     }
 `
 
-export default function FormInput({ name, type, onChange }) {
+export default function Input({ name, type, onChange }) {
     return (
         <StyledInput 
             name={name}
