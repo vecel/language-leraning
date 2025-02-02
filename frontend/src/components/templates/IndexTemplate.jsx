@@ -16,7 +16,8 @@ const Header = styled.header`
 
 const Main = styled.main`
     margin: auto;
-    max-width: 64rem;
+    // max-width: 64rem;
+    width: 64rem;
 `
 
 export default function IndexTemplate({ children }) {
