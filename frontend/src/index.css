@@ -5,15 +5,19 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: var(--primary-dark);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --light-blue: #646cff;
+  --primary-dark: #111;
+  --secondary-dark: #222;
+
+  --accent: #646cff;
   --dark: #1a1a1a;
+  
   --dashed-line: 0.2px dashed #fff5;
 }
 

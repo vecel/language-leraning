@@ -1,20 +1,28 @@
 import styled, { keyframes } from "styled-components"
 
 const pulse = keyframes`
-    to {
-        opacity: 0.3;
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(2);
+    }
+    100% {
+        transform: scale(1);
     }
 `
 
-const Animation = styled.div`
-    width: 0.5rem;
-    height: 0.5rem;
-    background-color: white;
-    animation: ${pulse} 1.5s ease-in-out infinite alternate; 
+const Rect = styled.rect`
+    width: 1rem;
+    height: 1rem;
+    fill: #fff;
+    animation: ${pulse} 3s linear infinite alternate;
 `
 
 export default function Square() {
     return (
-        <Animation />
+        <svg>
+            <Rect />
+        </svg>
     )
 }

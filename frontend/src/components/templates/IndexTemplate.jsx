@@ -12,12 +12,22 @@ const Root = styled.div`
 const Header = styled.header`
     align-self: stretch;
     height: 3.5rem;
+    border-bottom: 1px solid #fff5;
+    // display: flex;
+    // flex-direction: row;
+    // align-items: center;
+    display: grid;
+    grid-template-columns: 20rem auto 20rem;
 `
 
 const Main = styled.main`
     margin: auto;
-    // max-width: 64rem;
-    width: 64rem;
+    max-width: 64rem;
+    border-left: var(--dashed-line);
+    border-right: var(--dashed-line);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `
 
 export default function IndexTemplate({ children }) {

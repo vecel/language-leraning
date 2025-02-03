@@ -1,13 +1,6 @@
-import { Link } from "react-router-dom";
 import styled from "styled-components";
-import Button from "../atoms/Button";
-import Square from "../atoms/Square";
+import LinkButton from "../atoms/LinkButton";
 
-const Container = styled.div`
-    // padding: 4rem 0;
-    border-left: var(--dashed-line);
-    border-right: var(--dashed-line);
-`
 const VerticalLine = styled.div`
     heigth: 0;
     width: 100%;
@@ -24,7 +17,6 @@ const ButtonContainer = styled.div`
 const SupportLines = styled.div`
     width: 20rem;
     height: 3rem;
-    margin-left: 21.9rem;
     border-left: var(--dashed-line);
     border-right: var(--dashed-line);
 `
@@ -39,21 +31,17 @@ const Paragraph = styled.p`
 export default function IndexMain() {
     return (
         <>
-            <Container>
-                <SupportLines />
-                <VerticalLine />
-                <Title>A title</Title>
-                <VerticalLine />
-                <Paragraph>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</Paragraph>
-                <VerticalLine />
-                <ButtonContainer>
-                    <Button primary={true}>
-                        <Link to='/authorization'>Get Started</Link>
-                    </Button>
-                </ButtonContainer>
-                <VerticalLine />
-                <SupportLines />
-            </Container>
+            <SupportLines />
+            <VerticalLine />
+            <Title>A title</Title>
+            <VerticalLine />
+            <Paragraph>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</Paragraph>
+            <VerticalLine />
+            <ButtonContainer>
+                <LinkButton primary={true} text='Get Started' link='/authorization' />
+            </ButtonContainer>
+            <VerticalLine />
+            <SupportLines />
         </>
     )
 }

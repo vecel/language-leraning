@@ -22,7 +22,7 @@ const H1 = styled.h1`
 
 const Span = styled.span`
     cursor: ${props => props.$action ? 'pointer' : 'default' };
-    color: ${props => props.$action ? 'var(--light-blue)' : 'inherit' }
+    color: ${props => props.$action ? 'var(--accent)' : 'inherit' }
 `
 
 export default function AuthForm({ handleLogin }) {
@@ -92,13 +92,13 @@ export default function AuthForm({ handleLogin }) {
             { field('username', 'text') }
             { !isLogin && field('email', 'email') }
             { field('password', 'password') }
-            <Button type='submit'>Submit</Button>
+            <Button>Submit</Button>
             <ErrorMessage message={errors['error'] || ''} />
             { isLogin 
                 ? <span>Don't have an account? Let's <Span $action={true} onClick={toggleLogin}>sign up</Span></span>
                 : <span>Already have an account? Let's <Span $action={true} onClick={toggleLogin}>log in</Span></span>
             }
-            <TailSpin visible={loading} color='var(--light-blue)' width='24' height='24' wrapperStyle={{ justifyContent: 'center', marginTop: '1rem' }}/>
+            <TailSpin visible={loading} color='var(--accent)' width='24' height='24' wrapperStyle={{ justifyContent: 'center', marginTop: '1rem' }}/>
         </Form>
     )
 }
